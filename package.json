@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "gulp build && node index.js",
-    "test": "node index.js"
+    "test": "node gulpfile.js"
   },
   "author": "Metropolis Squad - CIO LA",
   "license": "ISC",
