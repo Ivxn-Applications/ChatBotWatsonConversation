@@ -5,7 +5,8 @@
   "description": "Chat bot for Mobile@IBM Connections Community",
   "main": "index.js",
   "scripts": {
-    "start": "gulp build && node index.js"
+    "start": "gulp build && node index.js",
+    "test": "gulp build && node index.js"
   },
   "author": "Metropolis Squad - CIO LA",
   "license": "ISC",
