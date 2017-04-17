@@ -1,0 +1,27 @@
+language: node_js
+sudo: true
+cache:
+  directories:
+  - node_modules
+node_js: stable
+deploy:
+  provider: cloudfoundry
+  api: https://api.ng.bluemix.net
+  username: cwatson@mx1.ibm.com
+  password: cioapr2017
+  manifest: manifest.dev.yml
+  name: ask-mobile-ibm
+  organization: CIO-mobile@ibm
+  space: dev
+  on:
+    branch: dev
+  provider: cloudfoundry
+  api: https://api.ng.bluemix.net
+  username: cwatson@mx1.ibm.com
+  password: cioapr2017
+  manifest: manifest.prod.yml
+  name: ask-mobileatibm
+  organization: CIO-mobile@ibm
+  space: Prod
+  on:
+    branch: master

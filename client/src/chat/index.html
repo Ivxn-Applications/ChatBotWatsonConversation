@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="chat">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=no; target-densityDpi=device-dpi" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Ask Mobile@IBM</title>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body ng-app="askMobile">
+  <div class="container" ng-controller="chatController">
+    <!-- loader -->
+    <div class="loading" ng-hide="bootstraped">
+      <div class="spinner-bounce-circle">
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div class="header section group">
+      <h2 class="col span_4_of_4">Ask Mobile@IBM</h2>
+    </div>
+
+    <!-- Chat body -->
+    <chat-messages></chat-messages>
+
+    <!-- Loading -->
+    <div class="typing section group">
+      <span class="no-margin col span_4_of_4" ng-show="watsonIsTyping">Watson is typing...</span>
+    </div>
+
+    <!-- Input panel -->
+    <input-box></input-box>
+
+    <!-- Alert box -->
+    <alert></alert>
+  </div> <!-- Container -->
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-cookies.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

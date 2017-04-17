@@ -1,0 +1,16 @@
+<div class="input-panel section group">
+  <div class="no-margin col span_4_of_4">
+    <input
+      id="user-input"
+      type="text"
+      name="input"
+      ng-model="input"
+      auto-focus="focus"
+      on-enter="getAnswer"
+      ng-disabled="block.input"
+      ng-class="{disabled: block.feedback}" />
+    
+    <button class="btn btn-default send" ng-click="getAnswer()" ng-disabled="block.input">Send</button>
+  </div>
+  <img class="hidden" ng-src="userPhoto" alt="">
+</div>

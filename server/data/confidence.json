@@ -1,0 +1,10 @@
+{
+  "rate": {
+    "high": 0.7,
+    "low": 0.3
+  },
+  "text": {
+    "medium": "I am not sure I correctly understand your question, but let me attempt to answer next... If this answer is not satisfactory, please try to rephrase your question.",
+    "low": "I am really sorry, I did not understand what you'd like to do. Please rephrase your question.</br> Alternatively you can ask your question in the <a href=\"https://apps.na.collabserv.com/communities/service/html/communityoverview?communityUuid=06b2242c-0b3b-405d-87bf-9d36aee89fe8#fullpageWidgetId=W848f6fed0d54_4b91_a448_1fde5d973eeb\" target=\"_blank\">Mobile@IBM forum</a> or request a one-on-one coaching session via the <a href=\"https://coachme.innovate.ibm.com/#/\" target=\"_blank\">CoachMe</a> tool (type 'mobile@IBM' to find the coaches that can help you)."
+  }
+}

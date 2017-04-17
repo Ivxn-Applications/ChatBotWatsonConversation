@@ -1,0 +1,20 @@
+{
+  "_comment": "This is a hardcoded replica of the SSO response _json property. For dev purposes only.",
+  "iss": "https://w3id.alpha.sso.ibm.com/isam",
+  "at_hash": "bOunTgz4MGKQo9rNkjPOZw",
+  "sub": "johndoe@us.ibm.com",
+  "lastName": "Robert%20Doe",
+  "realmName": "W3IDRealm",
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36",
+  "dn": "uid=XXXXXXXXX,c=us,ou=bluepages,o=ibm.com",
+  "cn": "John%20Robert%20Doe",
+  "aud": "ZDk3NThiYWMtMDhlZi00",
+  "uid": "XXXXXXXXX",
+  "firstName": "John",
+  "emailAddress": "johndoe@us.ibm.com",
+  "blueGroups": [],
+  "clientIP": "23.215.131.71",
+  "exp": 1478899803,
+  "authMethod": "ext-auth-interface",
+  "iat": 1478892603
+}

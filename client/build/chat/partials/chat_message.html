@@ -1,0 +1,38 @@
+<li
+    id="message-{{$index}}"
+    ng-class="{
+        'watson': message.from === 'watson' || message.from === 'feedback',
+        'user': message.from === 'user'
+    }">
+
+    <img ng-src="{{message.image}}" class="media-object">
+
+    <p class="bubble">
+        <span ng-bind-html="message.text"></span>
+    </p>
+
+    <!-- Feedback Container -->
+    <p class="feedback-btns-container" ng-if="message.from === 'feedback'">
+        <a
+            href="#message-{{$index}}"
+            class="feedback-btn green-border feedback-btn-useful"
+            ng-click="feedback(message,'positive')"
+            ng-class="{'positive': message.feedback === 'positive'}">
+
+            <span class="glyphicon glyphicon-thumbs-up"></span>
+            Useful
+        </a>
+
+        <a
+            href="#message-{{$index}}"
+            class="feedback-btn red-border"
+            ng-click="feedback(message,'negative')"
+            ng-class="{'negative': message.feedback === 'negative'}">
+
+            <span class="glyphicon glyphicon-thumbs-down"></span>
+            Not useful
+        </a>
+    </p>
+
+    <div class="clear"></div>
+</li>

@@ -1,0 +1,8 @@
+applications:
+- path: .
+  command: npm start
+  instances: 1
+  domain: mybluemix.net
+  name: ask-mobileatibm
+  host: ask-mobileatibm
+  disk_quota: 512M

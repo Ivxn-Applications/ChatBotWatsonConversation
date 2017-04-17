@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Loading Ask mobile@IBM</title>
+  <style>
+    body {
+      opacity: 0;
+    }
+    .warning {
+      width: 640px;
+
+      margin: 70px auto;
+      padding: 30px;
+
+      border: 1px solid #eee;
+      border-radius: 3px;
+
+      color: #eee;
+      font-size: 25px;
+    }
+
+    @-webkit-keyframes fadein {
+      0% {
+        opacity:0;
+        background: #fff;
+      }
+      100% {
+        opacity:1;
+        background: #1395BA;
+      }
+    }
+    @keyframes fadein {
+      0% {
+        opacity:0;
+        background: #fff;
+      }
+      100% {
+        opacity:1;
+        background: #1395BA;
+      }
+    }
+    .fadein {
+      opacity:1;
+      background: #1395BA;
+      -moz-animation   : fadein 5s linear;
+      -webkit-animation: fadein 5s linear;
+      animation        : fadein 5s linear;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="warning">
+    <h2>Hello, Felipe!</h2>
+    <p>Looks like your browser blocked Mobile@IBM chat to open...</p>
+    <p>You must allow pop-ups, from this domain, to use it.</p>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="index.js" type="text/javascript"></script>
+</body>
+</html>
