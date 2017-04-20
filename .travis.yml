@@ -9,23 +9,25 @@ branches:
   - dev
   - master
 deploy:
-  provider: cloudfoundry
-  api: https://api.ng.bluemix.net
-  username: anacecih@mx1.ibm.com
-  password: Acha9895
-  organization: CIO-mobile@ibm
-  space: dev
-  manifest: manifest.dev.yml
-  name: ask-mobile-ibm
-  on:
-    branch: dev
-  provider: cloudfoundry
-  api: https://api.ng.bluemix.net
-  username: anacecih@mx1.ibm.com
-  password: Acha9895
-  organization: CIO-mobile@ibm
-  space: Prod
-  manifest: manifest.prod.yml
-  name: ask-mobileatibm
-  on:
-    branch: master
+  - provider: cloudfoundry
+    api: https://api.ng.bluemix.net
+    username: anacecih@mx1.ibm.com
+    password: Acha9895
+    organization: CIO-mobile@ibm
+    space: dev
+    manifest: manifest.dev.yml
+    name: ask-mobile-ibm
+    on:
+        repo: MobileAtIBM/ask-mobileatibm
+        branch: dev
+  - provider: cloudfoundry
+    api: https://api.ng.bluemix.net
+    username: anacecih@mx1.ibm.com
+    password: Acha9895
+    organization: CIO-mobile@ibm
+    space: Prod
+    manifest: manifest.prod.yml
+    name: ask-mobileatibm
+    on:
+        repo: MobileAtIBM/ask-mobileatibm
+        branch: master
