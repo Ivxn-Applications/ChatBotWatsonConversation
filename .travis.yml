@@ -18,7 +18,6 @@ deploy:
   manifest: manifest.dev.yml
   name: ask-mobile-ibm
   on:
-    repo: MobileAtIBM/ask-mobileatibm
     branch: dev
   provider: cloudfoundry
   api: https://api.ng.bluemix.net
@@ -29,5 +28,4 @@ deploy:
   manifest: manifest.prod.yml
   name: ask-mobileatibm
   on:
-    repo: MobileAtIBM/ask-mobileatibm
     branch: master
