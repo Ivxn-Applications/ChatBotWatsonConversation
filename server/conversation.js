@@ -27,11 +27,11 @@ module.exports = function (app, appEnv, cloudant, conversation) {
         device = fake.device;
       } else {
         console.error('Error: Session data does not exist.');
-        res.status(500).json({ 
-          message: 'Sorry, a problem was found while processing your information. Please try again.', 
-          error: 'Session data not found' 
+        res.status(500).json({
+          message: 'Sorry, a problem was found while processing your information. Please try again.',
+          error: 'Session data not found'
         });
-        
+
         return;
       }
     }
@@ -78,7 +78,7 @@ module.exports = function (app, appEnv, cloudant, conversation) {
       // Check response confidence and treat it accordingly
       if (response.intents[0] && !response.context.ignore_confidence) {
         var responseConfidence = response.intents[0].confidence;
-        
+
         if (responseConfidence >= confidence.rate.low && responseConfidence < confidence.rate.high) {
           response.lowConfidence = {
             text: confidence.text.medium,
