@@ -10,7 +10,7 @@ var Promise = require('bluebird'),
     watson = require('watson-developer-cloud'),
     cfenv = require('cfenv'),
     appEnv = cfenv.getAppEnv(),
-    database = process.env.DATABASE || 'feedback1',
+    database = process.env.DATABASE || 'test_feedback',
     config = require('./server/config')(appEnv);
 
 app.use(bodyParser.json());
@@ -18,10 +18,10 @@ app.use(bodyParser.json());
 /* ***************** Cloudant & conversation setup ***************** */
 console.log('Using %s database', database);
 console.log('line 20');
-var cloudant = require('cloudant')({
-  account: config.cloudant.username,
-  password: config.cloudant.password,
-  plugin:'promises'
+var cloudant = require('cloudant')({ 
+  account: config.cloudant.username, 
+  password: config.cloudant.password, 
+  plugin:'promises' 
 }).db.use(database);
 console.log('line 26');
 var conversation = watson.conversation({
@@ -37,7 +37,7 @@ console.log('line 36');
 /* ***************** Auth setup **************** */
 if (!appEnv.isLocal) { // Disable auth when running locally.
   require('./server/auth/')(app, appEnv, config);
-  app.use(require('./server/auth/validator'));
+  app.use(require('./server/auth/validator')); 
 }
 console.log('line 42');
 /* ***************** Serve client app **************** */
