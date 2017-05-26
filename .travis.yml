@@ -12,7 +12,7 @@ deploy:
   - provider: cloudfoundry
     api: https://api.ng.bluemix.net
     username: anacecih@mx1.ibm.com
-    password: Acha9895
+    password: Acha9896
     organization: CIO-mobile@ibm
     space: dev
     manifest: manifest.dev.yml
