@@ -1,6 +1,5 @@
 module.exports = function (req,res,next) {
-  // console.log('isAuthenticated: ', req.isAuthenticated());
-  // console.log(req.user);
+  console.log('isAuthenticated: ', req.isAuthenticated());
   if(req.isAuthenticated() || req.url === '/api/health') {
     next();
   } else {

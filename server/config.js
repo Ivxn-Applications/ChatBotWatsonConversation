@@ -1,6 +1,6 @@
 /**
  * Provide a single object with credentials for both cloudant and conversation.
- * @param  {Object} appEnv Enviroment object provided by cfenv module 
+ * @param  {Object} appEnv Enviroment object provided by cfenv module
  * @return {Object} config Both cloudant and conversation credentials
  */
 module.exports = function config (appEnv) {
@@ -10,22 +10,22 @@ module.exports = function config (appEnv) {
       redis = null;
 
   if (appEnv.isLocal) {
-    require('dotenv').config({ silent: true });
-    
+    //require('dotenv').config({ silent: true });
+    var env_variables = require('node-env-file')(__dirname + '/credentials', {raise: false});
     cloudant = {
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PWD,
-      url: process.env.DB_HOST
+      username: env_variables.DB_USERNAME,
+      password: env_variables.DB_PWD,
+      url: env_variables.DB_HOST
     };
 
     conversation = {
-      username: process.env.CONVERSTATION_USER,
-      password: process.env.CONVERSTATION_PWD,
-      url: process.env.CONVERSTATION_URL
+      username: env_variables.CONVERSTATION_USER,
+      password: env_variables.CONVERSTATION_PWD,
+      url: env_variables.CONVERSTATION_URL
     };
 
     redis = {
-      uri: process.env.REDIS_URI
+      uri: env_variables.REDIS_URI
     };
 
   } else {

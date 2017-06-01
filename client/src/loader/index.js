@@ -20,6 +20,7 @@
 
     function response () {
       var res = JSON.parse(xhr.responseText);
+      console.log(xhr.responseText);
       var device = res.device;
 
       if (device === "desktop") {
@@ -27,8 +28,8 @@
         var community = res.community;
 
         if (newW) {
-          newW.focus();
-          window.location.assign(community);
+            newW.focus();
+            window.location.assign(community);
         } else {
           var body = document.querySelector('body'),
               h2 = document.querySelector('h2');

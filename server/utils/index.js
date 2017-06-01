@@ -13,7 +13,7 @@ function _getCountryName (dn) {
 }
 
 /**
- * Get which device request is claiming to be using, mobile or desktop. 
+ * Get which device request is claiming to be using, mobile or desktop.
  * @param  {String} agent - Request user agent
  */
 exports.mobileOrDesktop = function (agent) {
@@ -28,10 +28,12 @@ exports.mobileOrDesktop = function (agent) {
  */
 exports.buildUserObj = function (json) {
   var user = {};
-
+  console.log("Json from buildUserObj: ");
+  console.log(json);
   user.id = json.emailAddress;
   user.name = decodeURIComponent(json.cn);
   user.country = _getCountryName(json.dn);
-
+  console.log("User from buildUserObj: ");
+  console.log(user);
   return user;
 };
