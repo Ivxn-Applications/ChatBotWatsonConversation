@@ -20,7 +20,6 @@
 
     function response () {
       var res = JSON.parse(xhr.responseText);
-      console.log(xhr.responseText);
       var device = res.device;
 
       if (device === "desktop") {
@@ -53,6 +52,7 @@
     }
 
     xhr.open("get", "/api/info");
+    console.log(response);
     xhr.onload = response;
     xhr.send();
   }

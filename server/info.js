@@ -7,13 +7,14 @@ module.exports = function (app, appEnv) {
   app.get('/api/info', function (req, res) {
     var user, device;
     try {
+      console.log("User data: ");
+      console.error(req.rawHeaders[3]);
       if (!req.session.refinedData) {
         req.session.refinedData = utils.buildUserObj(req.user._json);
-        req.session.device = utils.mobileOrDesktop(req.user._json.userAgent);
+        req.session.device = utils.mobileOrDesktop(/*req.user._json.userAgent*/req.rawHeaders[3]);
       }
       user = req.session.refinedData;
-      device = "desktop";//req.session.device;
-      console.error(req.session);
+      device = req.session.device;
     } catch (e) {
       // dev purposes
       if (appEnv.isLocal) {
@@ -30,7 +31,6 @@ module.exports = function (app, appEnv) {
         return;
       }
     }
-
     res.json({user: user, device: device, community: communityUrl});
   });
 

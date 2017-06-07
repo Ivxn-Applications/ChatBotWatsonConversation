@@ -9,19 +9,20 @@ function _setRedis (config) {
   var options = {
     url: config.uri
   };
-  
+
   return new RedisStore(options);
 }
 
 module.exports = function (app, env, config) {
   var sessionOptions = {
-    resave: false, 
-    saveUninitialized: 'true', 
-    secret: '%5up3r#mobile@At@IBM#53cr37!', 
+    resave: false,
+    saveUninitialized: 'true',
+    secret: '%5up3r#mobile@At@IBM#53cr37!',
     cookie: {maxAge: 13*60*60*1000 }
   };
 
   if (!env.isLocal) {
+
     sessionOptions.store = _setRedis(config.redis);
   }
 
