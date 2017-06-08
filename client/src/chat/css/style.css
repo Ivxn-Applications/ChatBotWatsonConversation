@@ -128,6 +128,16 @@ ul.chat li img {
   height: 70px;
   border-radius: 60px;
 }
+ul.chat li img.imagen{
+  width:100%;
+  height:50%;
+  border-radius:0px
+}
+l.chat li img {
+  width: 70px;
+  height: 70px;
+  border-radius: 60px;
+}
 
 /* CHAT BALOON */
 ul.chat li .bubble {

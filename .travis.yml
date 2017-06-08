@@ -11,8 +11,8 @@ branches:
 deploy:
   - provider: cloudfoundry
     api: https://api.ng.bluemix.net
-    username: Ivan.Ortiz@ibm.com
-    password: Unix.Root10
+    username: $CF_USER
+    password: $CF_PASSWORD
     organization: CIO-mobile@ibm
     space: dev
     manifest: manifest.dev.yml
@@ -22,8 +22,8 @@ deploy:
         branch: dev
   - provider: cloudfoundry
     api: https://api.ng.bluemix.net
-    username: Ivan.Ortiz@ibm.com
-    password: Unix.Root10
+    username: $CF_USER
+    password: $CF_PASSWORD
     organization: CIO-mobile@ibm
     space: Prod
     manifest: manifest.prod.yml
