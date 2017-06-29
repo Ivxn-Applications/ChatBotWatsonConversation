@@ -57,7 +57,7 @@ module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
               _rev: docAux._rev,
               worksapce_id: docAux.worksapce_id,
               conversation_id: docAux.conversation_id,
-              text: docAux.text+"user: "+result['input'].text+" watson: "+result['output'].text
+              text: docAux.text+"<br/>user: "+result['input'].text+"<br/>watson: "+result['output'].text
             };
             cloudantConv.insert(objAux);
           });
