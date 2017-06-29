@@ -3,7 +3,7 @@ var confidence = require('./data/confidence');
 var WORKSPACE_ID = process.env.CONVERSATION_WORKSPACE_ID;
 var fakeUser = require('./utils/fake_user');
 
-module.exports = function (app, appEnv, cloudant, conversation) {
+module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
 
   app.post('/api/message', function(req, res) {
     var user,
@@ -26,12 +26,11 @@ module.exports = function (app, appEnv, cloudant, conversation) {
         user = fake.user;
         device = fake.device;
       } else {
-        console.error('Error: Session data does not exist.');
-        res.status(500).json({ 
-          message: 'Sorry, a problem was found while processing your information. Please try again.', 
-          error: 'Session data not found' 
+        res.status(500).json({
+          message: 'Sorry, a problem was found while processing your information. Please try again.',
+          error: 'Session data not found'
         });
-        
+
         return;
       }
     }
@@ -50,6 +49,23 @@ module.exports = function (app, appEnv, cloudant, conversation) {
 
     conversation.messageAsync(payload)
     .then(function (result) {
+      isOnDataBase(cloudantConv,result,(flag) =>{
+        if(flag === true){
+          retreiveDocCloudant(cloudantConv,result,(docAux)=>{
+            var objAux ={
+              _id: docAux._id,
+              _rev: docAux._rev,
+              worksapce_id: docAux.worksapce_id,
+              conversation_id: docAux.conversation_id,
+              text: docAux.text+"user: "+result['input'].text+" watson: "+result['output'].text
+            };
+            cloudantConv.insert(objAux);
+          });
+        }else{
+         var data = {worksapce_id:WORKSPACE_ID, conversation_id:result["context"].conversation_id, text:"watson: "+result['output'].text};
+         cloudantConv.insert(data);
+        }
+      });
       response = result;
       response.user = user;
       response.device = device;
@@ -78,7 +94,7 @@ module.exports = function (app, appEnv, cloudant, conversation) {
       // Check response confidence and treat it accordingly
       if (response.intents[0] && !response.context.ignore_confidence) {
         var responseConfidence = response.intents[0].confidence;
-        
+
         if (responseConfidence >= confidence.rate.low && responseConfidence < confidence.rate.high) {
           response.lowConfidence = {
             text: confidence.text.medium,
@@ -104,3 +120,26 @@ module.exports = function (app, appEnv, cloudant, conversation) {
   });
 
 };
+function isOnDataBase(cloudantConv,result, callback){
+  cloudantConv.find({selector:{conversation_id:result["context"].conversation_id}}, function(er, result) {
+      if (er) {
+        throw er;
+      }
+      if(result.docs.length>0){
+        callback(true);
+      }
+      else{
+        callback(false);
+      }
+    });
+}
+function retreiveDocCloudant(cloudantConv,result,callback){
+  cloudantConv.find({selector:{conversation_id:result["context"].conversation_id}}, function(er, result) {
+      if (er) {
+        throw er;
+      }
+      if(result.docs.length>0){
+        callback(result.docs[0]);
+      };
+    });
+}

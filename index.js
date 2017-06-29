@@ -18,11 +18,16 @@ app.use(bodyParser.json());
 /* ***************** Cloudant & conversation setup ***************** */
 console.log('Using %s database', database);
 console.log('line 20');
-var cloudant = require('cloudant')({ 
-  account: config.cloudant.username, 
-  password: config.cloudant.password, 
-  plugin:'promises' 
+var cloudant = require('cloudant')({
+  account: config.cloudant.username,
+  password: config.cloudant.password,
+  plugin:'promises'
 }).db.use(database);
+var cloudantConv = require('cloudant')({
+  account: config.cloudant.username,
+  password: config.cloudant.password,
+  plugin:'promises'
+}).db.use("conversations_records");
 console.log('line 26');
 var conversation = watson.conversation({
   url: config.conversation.url,
@@ -37,7 +42,7 @@ console.log('line 36');
 /* ***************** Auth setup **************** */
 if (!appEnv.isLocal) { // Disable auth when running locally.
   require('./server/auth/')(app, appEnv, config);
-  app.use(require('./server/auth/validator')); 
+  app.use(require('./server/auth/validator'));
 }
 console.log('line 42');
 /* ***************** Serve client app **************** */
@@ -45,7 +50,7 @@ app.use('/', express.static(__dirname + '/client/build/loader'));
 app.use('/chat', express.static(__dirname + '/client/build/chat'));
 
 /* ***************** APIs setup **************** */
-require('./server/conversation')(app, appEnv, cloudant, conversation);
+require('./server/conversation')(app, appEnv, cloudant, conversation,cloudantConv);
 require('./server/feedback')(app, cloudant);
 require('./server/info')(app, appEnv);
 require('./server/health')(app);

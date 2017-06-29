@@ -28,12 +28,8 @@ exports.mobileOrDesktop = function (agent) {
  */
 exports.buildUserObj = function (json) {
   var user = {};
-  console.log("Json from buildUserObj: ");
-  console.log(json);
   user.id = json.emailAddress;
   user.name = decodeURIComponent(json.cn);
   user.country = _getCountryName(json.dn);
-  console.log("User from buildUserObj: ");
-  console.log(user);
   return user;
 };
