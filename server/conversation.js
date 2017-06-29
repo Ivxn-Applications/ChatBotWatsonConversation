@@ -2,7 +2,6 @@ var utils = require('./utils');
 var confidence = require('./data/confidence');
 var WORKSPACE_ID = process.env.CONVERSATION_WORKSPACE_ID;
 var fakeUser = require('./utils/fake_user');
-
 module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
 
   app.post('/api/message', function(req, res) {
@@ -34,7 +33,6 @@ module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
         return;
       }
     }
-
     if (req.body) {
       if (req.body.input) {
         payload.input = req.body.input;
@@ -67,12 +65,13 @@ module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
         }
       });
       response = result;
-      response.user = user;
+      response.user={country:""};
+      response.user.country = user.country;
       response.device = device;
       // console.log('DEVICE: ', response.device);
       if (response.context.feedback) {
         response.date = new Date().toISOString();
-
+        console.log("data: ",response.user);
         return cloudant.insert(response, {include_docs: true});
       } else {
         return response;
@@ -109,8 +108,7 @@ module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
           response.lowConfidence = null;
         }
       }
-
-      response.output.text = response.output.text.join("\n").replace(/{name}/, response.user.name.split(' ')[0]);
+      response.output.text = response.output.text.join("\n").replace(/{name}/, user.name.split(' ')[0]);
 
       res.json(response);
     })
