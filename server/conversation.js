@@ -67,7 +67,7 @@ module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
         }
       });
       response = result;
-      //response.user = user;
+      response.user = user;
       response.device = device;
       // console.log('DEVICE: ', response.device);
       if (response.context.feedback) {
