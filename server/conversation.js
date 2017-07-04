@@ -4,8 +4,8 @@ var WORKSPACE_ID = process.env.CONVERSATION_WORKSPACE_ID;
 var fakeUser = require('./utils/fake_user');
 var globalDate = new Date().toISOString();
 module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
-
   app.post('/api/message', function(req, res) {
+
     var user,
         device,
         payload = { workspace_id: WORKSPACE_ID, context: {}, input: {} };
@@ -48,7 +48,10 @@ module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
 
     conversation.messageAsync(payload)
     .then(function (result) {
+      if(result['output'].nodes_visited[0]==="node_2_1491578229155")
+        globalDate = new Date().toISOString();
       isOnDataBase(cloudantConv,result,(flag) =>{
+        console.log("Date",globalDate);
         if(flag === true){
           retreiveDocCloudant(cloudantConv,result,(docAux)=>{
             var objAux ={
