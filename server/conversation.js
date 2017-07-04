@@ -59,12 +59,12 @@ module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
               _rev: docAux._rev,
               worksapce_id: docAux.worksapce_id,
               conversation_date: docAux.conversation_date,
-              text: docAux.text+"<br/>user: "+result['input'].text+"<br/>watson: "+result['output'].text
+              text: docAux.text+"<br/><strong>user:</strong> "+result['input'].text+"<br/><strong>watson:</strong>  "+result['output'].text
             };
             cloudantConv.insert(objAux);
           });
         }else{
-         var data = {worksapce_id:WORKSPACE_ID, conversation_date:globalDate, text:"watson: "+result['output'].text};
+         var data = {worksapce_id:WORKSPACE_ID, conversation_date:globalDate, text:"<br/><strong>watson:</strong> "+result['output'].text};
          cloudantConv.insert(data);
         }
       });
