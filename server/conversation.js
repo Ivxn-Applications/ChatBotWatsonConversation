@@ -2,6 +2,7 @@ var utils = require('./utils');
 var confidence = require('./data/confidence');
 var WORKSPACE_ID = process.env.CONVERSATION_WORKSPACE_ID;
 var fakeUser = require('./utils/fake_user');
+var globalDate = new Date().toISOString();
 module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
 
   app.post('/api/message', function(req, res) {
@@ -54,13 +55,13 @@ module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
               _id: docAux._id,
               _rev: docAux._rev,
               worksapce_id: docAux.worksapce_id,
-              conversation_id: docAux.conversation_id,
+              conversation_date: docAux.conversation_date,
               text: docAux.text+"<br/>user: "+result['input'].text+"<br/>watson: "+result['output'].text
             };
             cloudantConv.insert(objAux);
           });
         }else{
-         var data = {worksapce_id:WORKSPACE_ID, conversation_id:result["context"].conversation_id, text:"watson: "+result['output'].text};
+         var data = {worksapce_id:WORKSPACE_ID, conversation_date:globalDate, text:"watson: "+result['output'].text};
          cloudantConv.insert(data);
         }
       });
@@ -70,7 +71,7 @@ module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
       response.device = device;
       // console.log('DEVICE: ', response.device);
       if (response.context.feedback) {
-        response.date = new Date().toISOString();
+        response.date = globalDate;
         console.log("data: ",response.user);
         return cloudant.insert(response, {include_docs: true});
       } else {
@@ -119,7 +120,7 @@ module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
 
 };
 function isOnDataBase(cloudantConv,result, callback){
-  cloudantConv.find({selector:{conversation_id:result["context"].conversation_id}}, function(er, result) {
+  cloudantConv.find({selector:{conversation_date:globalDate}}, function(er, result) {
       if (er) {
         throw er;
       }
@@ -132,7 +133,7 @@ function isOnDataBase(cloudantConv,result, callback){
     });
 }
 function retreiveDocCloudant(cloudantConv,result,callback){
-  cloudantConv.find({selector:{conversation_id:result["context"].conversation_id}}, function(er, result) {
+  cloudantConv.find({selector:{conversation_date:globalDate}}, function(er, result) {
       if (er) {
         throw er;
       }
