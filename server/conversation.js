@@ -59,13 +59,23 @@ module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
               _rev: docAux._rev,
               worksapce_id: docAux.worksapce_id,
               conversation_date: docAux.conversation_date,
-              text: docAux.text+"<p><br/><strong>user:</strong> "+result['input'].text+"</p>"+"<br/><p><strong>watson:</strong>  "+result['output'].text+"</p>"
+              text:docAux.text+"<p><br/><strong>USER:</strong> "
             };
-            cloudantConv.insert(objAux);
+            retreiveDataWithoutBR(result['input'].text,(textFixed)=>{
+              objAux.text=objAux.text+textFixed+"</p>"+"<br/><p><strong>WATSON:</strong>  ";
+              retreiveDataWithoutBR(result['output'].text,(textFixed)=>{
+                objAux.text=objAux.text+textFixed+"</p>";
+                cloudantConv.insert(objAux);
+              });
+            });
           });
         }else{
-         var data = {worksapce_id:WORKSPACE_ID, conversation_date:globalDate, text:"<br/><strong>watson:</strong> "+result['output'].text};
-         cloudantConv.insert(data);
+         var data = {worksapce_id:WORKSPACE_ID, conversation_date:globalDate, text:"<p><strong>WATSON:</strong> "};
+         retreiveDataWithoutBR(result['output'].text,(textFixed)=>{
+           console.log("closer to insert");
+           data.text=data.text+textFixed+"</p>";
+           cloudantConv.insert(data);
+         });
         }
       });
       response = result;
@@ -144,4 +154,14 @@ function retreiveDocCloudant(cloudantConv,result,callback){
         callback(result.docs[0]);
       };
     });
+}
+function retreiveDataWithoutBR(text,callback){
+  if(typeof(text)==="object"){
+    text=text[0];
+  }
+  while (text.includes("<br/>")||text.includes("</br>")) {
+    text = text.replace("<br/>","");
+    text = text.replace("</br>","");
+  }
+  callback (text);
 }
