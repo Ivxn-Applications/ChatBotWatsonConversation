@@ -75,6 +75,7 @@
       $scope.block.input = true;
 
       function success (response) {
+          console.log(response.user.id);
         $scope.bootstraped = true;
         if (!user) {
           //TODO workaround, fix
@@ -203,7 +204,7 @@
     return {
         restrict: 'E',
         transclude: true,
-        
+
         templateUrl: 'partials/chat_message.html'
     };
   }
@@ -213,8 +214,8 @@
 
 })();
 (function() {
-    
-    function chatMessages() { 
+
+    function chatMessages() {
         return {
             restrict: 'E',
             transclude: true,
@@ -226,15 +227,15 @@
     angular.module('askMobile').directive('chatMessages', chatMessages);
 })();
 (function () {
-    
-    function inputBox() { 
+
+    function inputBox() {
       return {
         restrict: 'E',
         transclude: true,
         templateUrl: 'partials/input_box.html',
       };
     }
-    
+
     inputBox.$inject = [];
     angular.module('askMobile').directive('inputBox', inputBox);
 })();

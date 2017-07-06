@@ -3,6 +3,7 @@ var confidence = require('./data/confidence');
 var WORKSPACE_ID = process.env.CONVERSATION_WORKSPACE_ID;
 var fakeUser = require('./utils/fake_user');
 var globalDate = new Date().toISOString();
+var gloabalUser;
 module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
   app.post('/api/message', function(req, res) {
 
@@ -15,15 +16,17 @@ module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
         req.session.refinedData = utils.buildUserObj(req.user._json);
         req.session.device = utils.mobileOrDesktop(req.user._json.userAgent);
       }
-
       user = req.session.refinedData;
       device = req.session.device;
+      gloabalUser=user;
     } catch (e) {
       // dev purposes
       if (appEnv.isLocal) {
         var fake = fakeUser();
 
         user = fake.user;
+        gloabalUser =user;
+        console.log(user);
         device = fake.device;
       } else {
         res.status(500).json({
@@ -85,7 +88,7 @@ module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
       // console.log('DEVICE: ', response.device);
       if (response.context.feedback) {
         response.date = globalDate;
-        console.log("data: ",response.user);
+        console.log("User data to be inserted: ",response.user);
         return cloudant.insert(response, {include_docs: true});
       } else {
         return response;
@@ -123,7 +126,7 @@ module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
         }
       }
       response.output.text = response.output.text.join("\n").replace(/{name}/, user.name.split(' ')[0]);
-
+      response.user["id"]=gloabalUser.id;
       res.json(response);
     })
     .error(function (error) {
