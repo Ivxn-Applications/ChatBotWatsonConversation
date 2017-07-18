@@ -19,7 +19,7 @@
 
 (function () {
 
-  function ChatController ($scope, $timeout, WatsonConversation, Feedback, ChatMessage, Utils) {
+  function ChatController ($scope, $timeout, WatsonConversation, Feedback, ChatMessage, Utils , FeedbackNegative) {
     $scope.messages = [];
     $scope.bootstraped = false;
     $scope.block = { input: false, feedback: false };
@@ -36,19 +36,34 @@
 
       Feedback.save({id: message.data["_id"], feedback: message.feedback })
       .success(function (result) {
-        console.log(result);
+
         message.feedback = type;
         message.data._id = result.id;
         message.data._rev = result.rev;
-
         feedbacking = false;
         $scope.block.input = false;
         $scope.focus = true;
         $scope.block.feedback = false;
+        if(message.feedback=='negative'){
+          console.log("result",result);
+          $scope.messages.push(ChatMessage.feedbackNegative(result));
+          Utils.scrollDown('message-' + ($scope.messages.length - 1));
+        }
       })
       .error(console.error);
-    };
-
+    }
+    $scope.feedbackNegative = function(message,type){
+      if(type===''){
+        return;
+      }
+      FeedbackNegative.save({id:message.data,feedbackNegative:type}).success(function (){
+        console.log("Negative Feedback was sent");
+      })
+    }
+    $scope.getNegativeInput = function(message){
+      message.negativeFeedback=document.getElementById("inputNegative").value;
+      $scope.feedbackNegative(message,message.negativeFeedback);
+    }
     $scope.getAnswer = function () {
       $scope.focus = true;
       if (!$scope.input || $scope.input === "") {
@@ -75,7 +90,6 @@
       $scope.block.input = true;
 
       function success (response) {
-          console.log(response.user.id);
         $scope.bootstraped = true;
         if (!user) {
           //TODO workaround, fix
@@ -132,10 +146,9 @@
 
           $timeout(function () {
             $scope.messages.push(ChatMessage.watson(response));
-
             if (response.feedback) {
               $scope.messages.push(ChatMessage.feedback(response));
-              $scope.block.feedback = true;
+              $scope.block.feedback = false;//must to be true
             } else {
               $scope.block.input = false;
               $scope.focus = true;
@@ -166,7 +179,7 @@
     $timeout(init);
   }
 
-  ChatController.$inject = ['$scope', '$timeout', 'WatsonConversation', 'Feedback', 'ChatMessage', 'Utils'];
+  ChatController.$inject = ['$scope', '$timeout', 'WatsonConversation', 'Feedback', 'ChatMessage', 'Utils', 'FeedbackNegative'];
   angular.module('askMobile').controller('chatController', ChatController);
 
 })();
@@ -205,7 +218,7 @@
         restrict: 'E',
         transclude: true,
 
-        templateUrl: 'partials/chat_message.html'
+        templateUrl: 'partials/chat_message.html',
     };
   }
 
@@ -213,9 +226,10 @@
   angular.module('askMobile').directive('chatMessage', chatMessage);
 
 })();
-(function() {
 
-    function chatMessages() {
+(function() {
+    
+    function chatMessages() { 
         return {
             restrict: 'E',
             transclude: true,
@@ -227,15 +241,15 @@
     angular.module('askMobile').directive('chatMessages', chatMessages);
 })();
 (function () {
-
-    function inputBox() {
+    
+    function inputBox() { 
       return {
         restrict: 'E',
         transclude: true,
         templateUrl: 'partials/input_box.html',
       };
     }
-
+    
     inputBox.$inject = [];
     angular.module('askMobile').directive('inputBox', inputBox);
 })();
@@ -305,6 +319,16 @@
         data: response.data
       };
     };
+    self.feedbackNegative = function (response) {
+      return {
+        from: 'feedbackNegative',
+        image: watsonPhoto,
+        text: "Why isn't this answer useful?",
+        feedback: 'negative',
+        negativeFeedback:'no feedback neagtive',
+        data: response.id
+      };
+    };
 
     return self;
   }
@@ -328,10 +352,28 @@
 
     return self;
   }
-
   Feedback.$inject = ['$http', '$q'];
   angular.module('askMobile').service('Feedback', Feedback);
 
+}());
+
+(function () {
+  function FeedbackNegative ($http, $q) {
+  var self = this;
+
+  self.save = function (message) {
+    return $http.post('/api/feedbackNegative/save', message);
+  };
+
+  self.delete = function (message) {
+    return $http.post('/api/feedbackNegative/delete', message.data);
+  };
+
+  return self;
+}
+
+FeedbackNegative.$inject = ['$http', '$q'];
+angular.module('askMobile').service('FeedbackNegative', FeedbackNegative);
 }());
 
 (function () {

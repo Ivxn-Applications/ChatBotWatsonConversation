@@ -1,7 +1,7 @@
 <li
     id="message-{{$index}}"
     ng-class="{
-        'watson': message.from === 'watson' || message.from === 'feedback',
+        'watson': message.from === 'watson' || message.from === 'feedback'|| message.from === 'feedbackNegative',
         'user': message.from === 'user'
     }">
 
@@ -18,7 +18,6 @@
             class="feedback-btn green-border feedback-btn-useful"
             ng-click="feedback(message,'positive')"
             ng-class="{'positive': message.feedback === 'positive'}">
-
             <span class="glyphicon glyphicon-thumbs-up"></span>
             Useful
         </a>
@@ -28,10 +27,29 @@
             class="feedback-btn red-border"
             ng-click="feedback(message,'negative')"
             ng-class="{'negative': message.feedback === 'negative'}">
-
             <span class="glyphicon glyphicon-thumbs-down"></span>
             Not useful
         </a>
+    </p>
+
+    <p class="feedback-btns-container" ng-if="message.from === 'feedbackNegative'">
+        <button
+            href="#message-{{$index}}"
+            class="feedback-btn red-border feedback-btn-useful"
+            ng-class="{'negative': message.feedbackNegative === 'negative'}"
+            ng-click="feedbackNegative(message,'This answer does not help me to find what I am looking for.')">
+            This answer does not help me to find what I am looking for.
+        </button>
+        <br/>
+        <button
+            href="#message-{{$index}}"
+            class="feedback-btn red-border feedback-btn-useful"
+            ng-class="{'negative': message.feedbackNegative === 'negative'}"
+            ng-click="feedbackNegative(message,'Though my question is answered, I am not satisfied with that answer.')">
+            Though my question is answered, I am not satisfied with that answer.
+        </button>
+        <br/>
+        <input id="inputNegative" ng-keyup="$event.keyCode == 13 && getNegativeInput(message)" class="feedback-btn red-border feedback-btn-useful" class="ng-valid ng-isolate-scope ng-dirty ng-touched ng-empty" ng-model="input" type="text" placeholder="Type another reason.....">
     </p>
 
     <div class="clear"></div>

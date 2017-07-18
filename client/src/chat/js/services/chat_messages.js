@@ -43,6 +43,16 @@
         data: response.data
       };
     };
+    self.feedbackNegative = function (response) {
+      return {
+        from: 'feedbackNegative',
+        image: watsonPhoto,
+        text: "Why isn't this answer useful?",
+        feedback: 'negative',
+        negativeFeedback:'no feedback neagtive',
+        data: response.id
+      };
+    };
 
     return self;
   }

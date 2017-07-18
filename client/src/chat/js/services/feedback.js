@@ -13,7 +13,6 @@
 
     return self;
   }
-
   Feedback.$inject = ['$http', '$q'];
   angular.module('askMobile').service('Feedback', Feedback);
 

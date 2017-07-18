@@ -52,6 +52,7 @@ app.use('/chat', express.static(__dirname + '/client/build/chat'));
 /* ***************** APIs setup **************** */
 require('./server/conversation')(app, appEnv, cloudant, conversation,cloudantConv);
 require('./server/feedback')(app, cloudant);
+require('./server/feedbackNegative')(app, cloudant);
 require('./server/info')(app, appEnv);
 require('./server/health')(app);
 require('./server/socket')(io);

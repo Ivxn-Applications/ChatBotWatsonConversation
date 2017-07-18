@@ -1,6 +1,6 @@
 (function () {
 
-  function ChatController ($scope, $timeout, WatsonConversation, Feedback, ChatMessage, Utils) {
+  function ChatController ($scope, $timeout, WatsonConversation, Feedback, ChatMessage, Utils , FeedbackNegative) {
     $scope.messages = [];
     $scope.bootstraped = false;
     $scope.block = { input: false, feedback: false };
@@ -17,19 +17,34 @@
 
       Feedback.save({id: message.data["_id"], feedback: message.feedback })
       .success(function (result) {
-        console.log(result);
+
         message.feedback = type;
         message.data._id = result.id;
         message.data._rev = result.rev;
-
         feedbacking = false;
         $scope.block.input = false;
         $scope.focus = true;
         $scope.block.feedback = false;
+        if(message.feedback=='negative'){
+          console.log("result",result);
+          $scope.messages.push(ChatMessage.feedbackNegative(result));
+          Utils.scrollDown('message-' + ($scope.messages.length - 1));
+        }
       })
       .error(console.error);
-    };
-
+    }
+    $scope.feedbackNegative = function(message,type){
+      if(type===''){
+        return;
+      }
+      FeedbackNegative.save({id:message.data,feedbackNegative:type}).success(function (){
+        console.log("Negative Feedback was sent");
+      })
+    }
+    $scope.getNegativeInput = function(message){
+      message.negativeFeedback=document.getElementById("inputNegative").value;
+      $scope.feedbackNegative(message,message.negativeFeedback);
+    }
     $scope.getAnswer = function () {
       $scope.focus = true;
       if (!$scope.input || $scope.input === "") {
@@ -112,10 +127,9 @@
 
           $timeout(function () {
             $scope.messages.push(ChatMessage.watson(response));
-
             if (response.feedback) {
               $scope.messages.push(ChatMessage.feedback(response));
-              $scope.block.feedback = true;
+              $scope.block.feedback = false;//must to be true
             } else {
               $scope.block.input = false;
               $scope.focus = true;
@@ -146,7 +160,7 @@
     $timeout(init);
   }
 
-  ChatController.$inject = ['$scope', '$timeout', 'WatsonConversation', 'Feedback', 'ChatMessage', 'Utils'];
+  ChatController.$inject = ['$scope', '$timeout', 'WatsonConversation', 'Feedback', 'ChatMessage', 'Utils', 'FeedbackNegative'];
   angular.module('askMobile').controller('chatController', ChatController);
 
 })();

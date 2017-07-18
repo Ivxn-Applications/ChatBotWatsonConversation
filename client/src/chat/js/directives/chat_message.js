@@ -4,8 +4,8 @@
     return {
         restrict: 'E',
         transclude: true,
-        
-        templateUrl: 'partials/chat_message.html'
+
+        templateUrl: 'partials/chat_message.html',
     };
   }
 

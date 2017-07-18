@@ -1,12 +1,11 @@
 
 module.exports = function (app, cloudant) {
 
-  app.post('/api/feedback/save', function (req, res) {
+  app.post('/api/feedbackNegative/save', function (req, res) {
     var comment = req.body;
-    console.log(comment);
     cloudant.get(comment.id)
     .then(function (body) {
-      body.feedback = comment.feedback;
+      body.negativeFeedback = comment.feedbackNegative;
       return cloudant.insert(body);
     })
     .then(function (result) {
@@ -16,9 +15,10 @@ module.exports = function (app, cloudant) {
     });
   });
 
-  app.post('/api/feedback/delete', function (req, res) {
+  app.post('/api/feedbackNegative/delete', function (req, res) {
     var comment = req.body;
-    console.log(comment);
+    console.log('Request',comment);
+    /*
     cloudant.destroy(comment._id, comment._rev)
     .then(function (result) {
       res.json(result);
@@ -26,5 +26,7 @@ module.exports = function (app, cloudant) {
       res.json(result);
     });
   });
+*/
+});
 
-};
+}

@@ -1,0 +1,36 @@
+<li
+    id="message-{{$index}}"
+    ng-class="{
+        'watson': message.from === 'watson' || message.from === 'feedback2',
+        'user': message.from === 'user'
+    }">
+
+    <img ng-src="{{message.image}}" class="media-object">
+
+    <p class="bubble">
+        <span ng-bind-html="message.text"></span>
+    </p>
+
+    <!-- Feedback Container -->
+    <p class="feedback-btns-container" ng-if="message.from === 'feedback2'">
+        <a
+            href="#message-{{$index}}"
+            class="feedback-btn green-border feedback-btn-useful"
+            ng-click="feedback(message,'positive')"
+            ng-class="{'positive': message.feedback2 === 'positive'}">
+            This answer does not help me find what I am looking for.
+        </a>
+      <br/>
+        <a
+            href="#message-{{$index}}"
+            class="feedback-btn red-border"
+            ng-click="feedback(message,'negative')"
+            ng-class="{'negative': message.feedback2 === 'negative'}">
+
+            <span class="glyphicon glyphicon-thumbs-down"></span>
+            Though my question is answered, I am not satisfied with that answer.
+        </a>
+    </p>
+
+    <div class="clear"></div>
+</li>
