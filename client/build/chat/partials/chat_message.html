@@ -34,17 +34,17 @@
 
     <p class="feedback-btns-container" ng-if="message.from === 'feedbackNegative'">
         <button
+            id="button1"
             href="#message-{{$index}}"
-            class="feedback-btn red-border feedback-btn-useful"
-            ng-class="{'negative': message.feedbackNegative === 'negative'}"
+            class="feedback-btn red-border"
             ng-click="feedbackNegative(message,'This answer does not help me to find what I am looking for.')">
             This answer does not help me to find what I am looking for.
         </button>
         <br/>
         <button
+            id="button2"
             href="#message-{{$index}}"
-            class="feedback-btn red-border feedback-btn-useful"
-            ng-class="{'negative': message.feedbackNegative === 'negative'}"
+            class="feedback-btn red-border"
             ng-click="feedbackNegative(message,'Though my question is answered, I am not satisfied with that answer.')">
             Though my question is answered, I am not satisfied with that answer.
         </button>

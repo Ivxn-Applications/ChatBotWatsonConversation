@@ -6,7 +6,7 @@
     $scope.block = { input: false, feedback: false };
     var feedbacking = false;
     var user = null;
-
+    var previousFeedback='';
     $scope.feedback = function (message, type) {
       if (feedbacking || message.feedback === type) {
         return;
@@ -26,9 +26,13 @@
         $scope.focus = true;
         $scope.block.feedback = false;
         if(message.feedback=='negative'){
-          console.log("result",result);
-          $scope.messages.push(ChatMessage.feedbackNegative(result));
+          $scope.messages.push(ChatMessage.feedbackNegative("none"));
           Utils.scrollDown('message-' + ($scope.messages.length - 1));
+          previousFeedback='negative';
+        }
+        else{
+          if(previousFeedback==='negative'&& message.feedback === 'positive')
+            $scope.messages.pop();
         }
       })
       .error(console.error);
@@ -38,12 +42,19 @@
         return;
       }
       FeedbackNegative.save({id:message.data,feedbackNegative:type}).success(function (){
+        console.log(type);
+        switch (type) {
+          case "This answer does not help me to find what I am looking for.":document.getElementById("button1").setAttribute("class",'negative feedback-btn red-border');document.getElementById("button2").setAttribute("class",'feedback-btn red-border');document.getElementById("inputNegative").setAttribute("class",'feedback-btn red-border');  break;
+          case "Though my question is answered, I am not satisfied with that answer.":document.getElementById("button2").setAttribute("class",'negative feedback-btn red-border');document.getElementById("button1").setAttribute("class",'feedback-btn red-border');document.getElementById("inputNegative").setAttribute("class",'feedback-btn red-border'); break;
+          default: document.getElementById("inputNegative").setAttribute("class",'red-border negative feedback-btn');document.getElementById("button1").setAttribute("class",'red-border feedback-btn'); document.getElementById("button2").setAttribute("class",'feedback-btn red-border');
+        }
         console.log("Negative Feedback was sent");
       })
     }
     $scope.getNegativeInput = function(message){
       message.negativeFeedback=document.getElementById("inputNegative").value;
       $scope.feedbackNegative(message,message.negativeFeedback);
+      ChatMessage.feedbackNegative(message.negativeFeedback);
     }
     $scope.getAnswer = function () {
       $scope.focus = true;

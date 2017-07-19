@@ -44,12 +44,13 @@
       };
     };
     self.feedbackNegative = function (response) {
+      console.log(response);
       return {
         from: 'feedbackNegative',
         image: watsonPhoto,
         text: "Why isn't this answer useful?",
         feedback: 'negative',
-        negativeFeedback:'no feedback neagtive',
+        negativeFeedback:response,
         data: response.id
       };
     };
