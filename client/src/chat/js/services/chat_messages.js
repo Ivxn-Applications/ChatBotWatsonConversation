@@ -44,14 +44,14 @@
       };
     };
     self.feedbackNegative = function (response) {
-      console.log(response);
+      console.log("ChatMessage feedbackNegative ",response);
       return {
         from: 'feedbackNegative',
         image: watsonPhoto,
         text: "Why isn't this answer useful?",
         feedback: 'negative',
-        negativeFeedback:response,
-        data: response.id
+        negativeFeedback:response.feedbackNegative,
+        data: response.dataDoc
       };
     };
 

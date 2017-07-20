@@ -26,7 +26,7 @@
         $scope.focus = true;
         $scope.block.feedback = false;
         if(message.feedback=='negative'){
-          $scope.messages.push(ChatMessage.feedbackNegative("none"));
+          $scope.messages.push(ChatMessage.feedbackNegative({dataDoc:message.data,feedbackNegative:"none"}));
           Utils.scrollDown('message-' + ($scope.messages.length - 1));
           previousFeedback='negative';
         }
@@ -41,7 +41,8 @@
       if(type===''){
         return;
       }
-      FeedbackNegative.save({id:message.data,feedbackNegative:type}).success(function (){
+      FeedbackNegative.save({id:message.data._id,feedbackNegative:type}).success(function (){
+        console.log("id ",message);
         console.log(type);
         switch (type) {
           case "This answer does not help me to find what I am looking for.":document.getElementById("button1").setAttribute("class",'negative feedback-btn red-border');document.getElementById("button2").setAttribute("class",'feedback-btn red-border');document.getElementById("inputNegative").setAttribute("class",'feedback-btn red-border');  break;
