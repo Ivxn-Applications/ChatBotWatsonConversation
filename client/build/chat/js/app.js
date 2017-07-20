@@ -61,18 +61,18 @@
         return;
       }
       FeedbackNegative.save({id:message.data._id,feedbackNegative:type}).success(function (){
-        console.log("id ",message);
-        console.log(type);
+        console.log('index ',($scope.messages.length - 1));
         switch (type) {
-          case "This answer does not help me to find what I am looking for.":document.getElementById("button1").setAttribute("class",'negative feedback-btn red-border');document.getElementById("button2").setAttribute("class",'feedback-btn red-border');document.getElementById("inputNegative").setAttribute("class",'feedback-btn red-border');  break;
-          case "Though my question is answered, I am not satisfied with that answer.":document.getElementById("button2").setAttribute("class",'negative feedback-btn red-border');document.getElementById("button1").setAttribute("class",'feedback-btn red-border');document.getElementById("inputNegative").setAttribute("class",'feedback-btn red-border'); break;
-          default: document.getElementById("inputNegative").setAttribute("class",'red-border negative feedback-btn');document.getElementById("button1").setAttribute("class",'red-border feedback-btn'); document.getElementById("button2").setAttribute("class",'feedback-btn red-border');
+          case "This answer does not help me to find what I am looking for.":document.getElementById("buttonOpc1-"+($scope.messages.length - 1)).setAttribute("class",'negative feedback-btn red-border');document.getElementById("buttonOpc2-"+($scope.messages.length - 1)).setAttribute("class",'feedback-btn red-border');document.getElementById("inputNegative-"+($scope.messages.length - 1)).setAttribute("class",'feedback-btn red-border');  break;
+          case "Though my question is answered, I am not satisfied with that answer.":document.getElementById("buttonOpc2-"+($scope.messages.length - 1)).setAttribute("class",'negative feedback-btn red-border');document.getElementById("buttonOpc1-"+($scope.messages.length - 1)).setAttribute("class",'feedback-btn red-border');document.getElementById("inputNegative-"+($scope.messages.length - 1)).setAttribute("class",'feedback-btn red-border'); break;
+          default: document.getElementById("inputNegative-"+($scope.messages.length - 1)).setAttribute("class",'red-border negative feedback-btn');document.getElementById("buttonOpc1-"+($scope.messages.length - 1)).setAttribute("class",'red-border feedback-btn'); document.getElementById("buttonOpc2-"+($scope.messages.length - 1)).setAttribute("class",'feedback-btn red-border');break;
         }
         console.log("Negative Feedback was sent");
       })
     }
     $scope.getNegativeInput = function(message){
-      message.negativeFeedback=document.getElementById("inputNegative").value;
+      console.log("inputNegative-"+($scope.messages.length - 1));
+      message.negativeFeedback=document.getElementById("inputNegative-"+($scope.messages.length - 1)).value;
       $scope.feedbackNegative(message,message.negativeFeedback);
       ChatMessage.feedbackNegative(message.negativeFeedback);
     }
@@ -195,6 +195,96 @@
   angular.module('askMobile').controller('chatController', ChatController);
 
 })();
+
+(function () {
+
+  function autoFocus($timeout) {
+    return {
+      restrict: 'A',
+      scope: {
+        autoFocus: "="
+      },
+      link: function($scope, $element, attrs) {
+        $scope.$watch("autoFocus", function(currentValue, previousValue) {
+          if (currentValue) {
+            $timeout(function () {
+              $element[0].focus();
+            }, 0);
+          }
+        });
+
+        $element[0].focus();
+      }
+    };
+  }
+
+  autoFocus.$inject = ['$timeout'];
+  angular.module('askMobile').directive('autoFocus', autoFocus);
+
+}());
+
+(function() {
+
+  function chatMessage() {
+    return {
+        restrict: 'E',
+        transclude: true,
+
+        templateUrl: 'partials/chat_message.html',
+    };
+  }
+
+  chatMessage.$inject = [];
+  angular.module('askMobile').directive('chatMessage', chatMessage);
+
+})();
+
+(function() {
+    
+    function chatMessages() { 
+        return {
+            restrict: 'E',
+            transclude: true,
+            templateUrl: 'partials/chat_messages.html',
+        };
+    }
+
+    chatMessages.$inject = [];
+    angular.module('askMobile').directive('chatMessages', chatMessages);
+})();
+(function () {
+    
+    function inputBox() { 
+      return {
+        restrict: 'E',
+        transclude: true,
+        templateUrl: 'partials/input_box.html',
+      };
+    }
+    
+    inputBox.$inject = [];
+    angular.module('askMobile').directive('inputBox', inputBox);
+})();
+(function () {
+
+  function onEnter () {
+    return function (scope, element, attrs) {
+      element.bind("keydown keypress", function (event) {
+        if(event.which === 13) {
+            scope.$apply(function () {
+                // scope.$eval(attrs.onEnter);
+                scope[attrs.onEnter]();
+            });
+            event.preventDefault();
+        }
+      });
+    };
+  }
+
+  onEnter.$inject = [];
+  angular.module('askMobile').directive('onEnter', onEnter);
+
+}());
 
 (function () {
 
@@ -373,95 +463,5 @@ angular.module('askMobile').service('FeedbackNegative', FeedbackNegative);
 
   WatsonConversation.$inject = ['$http', '$q'];
   angular.module('askMobile').service('WatsonConversation', WatsonConversation);
-
-}());
-
-(function () {
-
-  function autoFocus($timeout) {
-    return {
-      restrict: 'A',
-      scope: {
-        autoFocus: "="
-      },
-      link: function($scope, $element, attrs) {
-        $scope.$watch("autoFocus", function(currentValue, previousValue) {
-          if (currentValue) {
-            $timeout(function () {
-              $element[0].focus();
-            }, 0);
-          }
-        });
-
-        $element[0].focus();
-      }
-    };
-  }
-
-  autoFocus.$inject = ['$timeout'];
-  angular.module('askMobile').directive('autoFocus', autoFocus);
-
-}());
-
-(function() {
-
-  function chatMessage() {
-    return {
-        restrict: 'E',
-        transclude: true,
-
-        templateUrl: 'partials/chat_message.html',
-    };
-  }
-
-  chatMessage.$inject = [];
-  angular.module('askMobile').directive('chatMessage', chatMessage);
-
-})();
-
-(function() {
-    
-    function chatMessages() { 
-        return {
-            restrict: 'E',
-            transclude: true,
-            templateUrl: 'partials/chat_messages.html',
-        };
-    }
-
-    chatMessages.$inject = [];
-    angular.module('askMobile').directive('chatMessages', chatMessages);
-})();
-(function () {
-    
-    function inputBox() { 
-      return {
-        restrict: 'E',
-        transclude: true,
-        templateUrl: 'partials/input_box.html',
-      };
-    }
-    
-    inputBox.$inject = [];
-    angular.module('askMobile').directive('inputBox', inputBox);
-})();
-(function () {
-
-  function onEnter () {
-    return function (scope, element, attrs) {
-      element.bind("keydown keypress", function (event) {
-        if(event.which === 13) {
-            scope.$apply(function () {
-                // scope.$eval(attrs.onEnter);
-                scope[attrs.onEnter]();
-            });
-            event.preventDefault();
-        }
-      });
-    };
-  }
-
-  onEnter.$inject = [];
-  angular.module('askMobile').directive('onEnter', onEnter);
 
 }());

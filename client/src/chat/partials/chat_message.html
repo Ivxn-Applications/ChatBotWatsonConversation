@@ -34,7 +34,7 @@
 
     <p class="feedback-btns-container" ng-if="message.from === 'feedbackNegative'">
         <button
-            id="button1"
+            id="buttonOpc1-{{$index}}"
             href="#message-{{$index}}"
             class="feedback-btn red-border"
             ng-click="feedbackNegative(message,'This answer does not help me to find what I am looking for.')">
@@ -42,14 +42,14 @@
         </button>
         <br/>
         <button
-            id="button2"
+            id="buttonOpc2-{{$index}}"
             href="#message-{{$index}}"
             class="feedback-btn red-border"
             ng-click="feedbackNegative(message,'Though my question is answered, I am not satisfied with that answer.')">
             Though my question is answered, I am not satisfied with that answer.
         </button>
         <br/>
-        <input id="inputNegative" ng-keyup="$event.keyCode == 13 && getNegativeInput(message)" class="feedback-btn red-border feedback-btn-useful" class="ng-valid ng-isolate-scope ng-dirty ng-touched ng-empty" ng-model="input" type="text" placeholder="Type another reason.....">
+        <input id="inputNegative-{{$index}}" ng-keyup="$event.keyCode == 13 && getNegativeInput(message)" class="feedback-btn red-border feedback-btn-useful" class="ng-valid ng-isolate-scope ng-dirty ng-touched ng-empty" type="text" placeholder="Type another reason.....">
     </p>
 
     <div class="clear"></div>
