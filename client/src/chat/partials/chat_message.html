@@ -1,7 +1,7 @@
 <li
     id="message-{{$index}}"
     ng-class="{
-        'watson': message.from === 'watson' || message.from === 'feedback'|| message.from === 'feedbackNegative',
+        'watson': message.from === 'watson' || message.from === 'feedback'|| message.from === 'feedbackNegative'|| message.from === 'greetings',
         'user': message.from === 'user'
     }">
 
@@ -51,6 +51,5 @@
         <br/>
         <input id="inputNegative-{{$index}}" ng-keyup="$event.keyCode == 13 && getNegativeInput(message)" class="feedback-btn red-border feedback-btn-useful" class="ng-valid ng-isolate-scope ng-dirty ng-touched ng-empty" type="text" placeholder="Type another reason.....">
     </p>
-
     <div class="clear"></div>
 </li>

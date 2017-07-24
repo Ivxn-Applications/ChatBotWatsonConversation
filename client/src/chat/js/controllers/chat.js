@@ -29,6 +29,7 @@
           $scope.messages.push(ChatMessage.feedbackNegative({dataDoc:message.data,feedbackNegative:"none"}));
           Utils.scrollDown('message-' + ($scope.messages.length - 1));
           previousFeedback='negative';
+          $scope.block.input = true;
         }
         else{
           if(previousFeedback==='negative'&& message.feedback === 'positive')
@@ -49,6 +50,9 @@
           default: document.getElementById("inputNegative-"+($scope.messages.length - 1)).setAttribute("class",'red-border negative feedback-btn');document.getElementById("buttonOpc1-"+($scope.messages.length - 1)).setAttribute("class",'red-border feedback-btn'); document.getElementById("buttonOpc2-"+($scope.messages.length - 1)).setAttribute("class",'feedback-btn red-border');break;
         }
         console.log("Negative Feedback was sent");
+        $scope.messages.push(ChatMessage.greetings());
+        $scope.block.input = false;
+        Utils.scrollDown('message-' + ($scope.messages.length - 1));
       })
     }
     $scope.getNegativeInput = function(message){

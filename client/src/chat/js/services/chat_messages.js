@@ -44,7 +44,6 @@
       };
     };
     self.feedbackNegative = function (response) {
-      console.log("ChatMessage feedbackNegative ",response);
       return {
         from: 'feedbackNegative',
         image: watsonPhoto,
@@ -53,6 +52,13 @@
         negativeFeedback:response.feedbackNegative,
         data: response.dataDoc
       };
+    };
+      self.greetings = function () {
+        return {
+          from: 'greetings',
+          image: watsonPhoto,
+          text: "Thanks for your feedback"
+        };
     };
 
     return self;
