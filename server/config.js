@@ -11,7 +11,7 @@ module.exports = function config (appEnv) {
 
   if (appEnv.isLocal) {
     //require('dotenv').config({ silent: true });
-    var env_variables = require('node-env-file')(__dirname + '/credentials', {raise: false});
+    var env_variables = require('node-env-file')(__dirname + '/.env', {raise: false});
     cloudant = {
       username: env_variables.DB_USERNAME,
       password: env_variables.DB_PWD,
