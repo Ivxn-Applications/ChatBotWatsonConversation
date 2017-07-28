@@ -7,6 +7,10 @@ module.exports = function (app, cloudant) {
     cloudant.get(comment.id)
     .then(function (body) {
       body.feedback = comment.feedback;
+      console.log("EL cuerpo: ",body);
+      if (body.feedback == "positive"){
+        body.reviewed = "reviewed";
+      }
       return cloudant.insert(body);
     })
     .then(function (result) {
