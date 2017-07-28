@@ -9,7 +9,10 @@ module.exports = function (app, cloudant) {
       body.feedback = comment.feedback;
       console.log("EL cuerpo: ",body);
       if (body.feedback == "positive"){
-        body.reviewed = "reviewed";
+        body.reviewed = 'true';
+        body.action = "Done";
+        body.action2 = "Done";
+        console.log("Dentro del If: ",body.reviewed);
       }
       return cloudant.insert(body);
     })
