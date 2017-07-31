@@ -12,7 +12,8 @@ module.exports = function (app, cloudant) {
         body.reviewed = 'true';
         body.action = "Done";
         body.action2 = "Done";
-        console.log("Dentro del If: ",body.reviewed);
+        body.comments= "";
+        console.log("EL cuerpo: ",body);
       }
       return cloudant.insert(body);
     })
