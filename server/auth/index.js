@@ -3,7 +3,7 @@ var passport = require('passport');
 var querystring = require('querystring');
 var settings = JSON.parse(process.env.SSO_SETTINGS);
 
-f/*function _setRedis (config) {
+/*function _setRedis (config) {
   var RedisStore = require('connect-redis')(session);
 
   var options = {
@@ -22,7 +22,7 @@ module.exports = function (app, env, config) {
   };
 
   if (!env.isLocal) {
-    
+
     //sessionOptions.store = _setRedis(config.redis);
   }
 
