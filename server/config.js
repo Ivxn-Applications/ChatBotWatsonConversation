@@ -32,6 +32,7 @@ module.exports = function config (appEnv) {
   } else {
 
     cloudant = vcap.getCredentials('cloudantNoSQLDB Dedicated');
+    console.log("Cloudant: ",cloudant);
     conversation = vcap.getCredentials('conversation');
     redis = vcap.getCredentials('compose-for-redis');
 
