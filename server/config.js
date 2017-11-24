@@ -10,7 +10,8 @@ module.exports = function config (appEnv) {
       redis = null;
 
   if (appEnv.isLocal) {
-    //require('dotenv').config({ silent: true });
+    require('dotenv').config({ silent: true });
+    console.log(process.env.DB_USERNAME);
     var env_variables = require('node-env-file')(__dirname + '/.env', {raise: false});
     cloudant = {
       username: env_variables.DB_USERNAME,
@@ -30,7 +31,7 @@ module.exports = function config (appEnv) {
 
   } else {
 
-    cloudant = vcap.getCredentials('cloudantNoSQLDB');
+    cloudant = vcap.getCredentials('cloudantNoSQLDB Dedicated');
     conversation = vcap.getCredentials('conversation');
     redis = vcap.getCredentials('compose-for-redis');
 

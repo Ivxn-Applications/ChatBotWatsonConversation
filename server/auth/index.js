@@ -2,8 +2,7 @@ var session = require('express-session');
 var passport = require('passport');
 var querystring = require('querystring');
 var settings = JSON.parse(process.env.SSO_SETTINGS);
-
-/*function _setRedis (config) {
+function _setRedis (config) {
   var RedisStore = require('connect-redis')(session);
 
   var options = {
@@ -11,7 +10,7 @@ var settings = JSON.parse(process.env.SSO_SETTINGS);
   };
 
   return new RedisStore(options);
-}*/
+}
 
 module.exports = function (app, env, config) {
   var sessionOptions = {

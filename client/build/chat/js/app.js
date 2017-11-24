@@ -202,6 +202,96 @@
 
 (function () {
 
+  function autoFocus($timeout) {
+    return {
+      restrict: 'A',
+      scope: {
+        autoFocus: "="
+      },
+      link: function($scope, $element, attrs) {
+        $scope.$watch("autoFocus", function(currentValue, previousValue) {
+          if (currentValue) {
+            $timeout(function () {
+              $element[0].focus();
+            }, 0);
+          }
+        });
+
+        $element[0].focus();
+      }
+    };
+  }
+
+  autoFocus.$inject = ['$timeout'];
+  angular.module('askMobile').directive('autoFocus', autoFocus);
+
+}());
+
+(function() {
+
+  function chatMessage() {
+    return {
+        restrict: 'E',
+        transclude: true,
+
+        templateUrl: 'partials/chat_message.html',
+    };
+  }
+
+  chatMessage.$inject = [];
+  angular.module('askMobile').directive('chatMessage', chatMessage);
+
+})();
+
+(function() {
+    
+    function chatMessages() { 
+        return {
+            restrict: 'E',
+            transclude: true,
+            templateUrl: 'partials/chat_messages.html',
+        };
+    }
+
+    chatMessages.$inject = [];
+    angular.module('askMobile').directive('chatMessages', chatMessages);
+})();
+(function () {
+    
+    function inputBox() { 
+      return {
+        restrict: 'E',
+        transclude: true,
+        templateUrl: 'partials/input_box.html',
+      };
+    }
+    
+    inputBox.$inject = [];
+    angular.module('askMobile').directive('inputBox', inputBox);
+})();
+(function () {
+
+  function onEnter () {
+    return function (scope, element, attrs) {
+      element.bind("keydown keypress", function (event) {
+        if(event.which === 13) {
+            scope.$apply(function () {
+                // scope.$eval(attrs.onEnter);
+                scope[attrs.onEnter]();
+            });
+            event.preventDefault();
+        }
+      });
+    };
+  }
+
+  onEnter.$inject = [];
+  angular.module('askMobile').directive('onEnter', onEnter);
+
+}());
+
+(function () {
+
   function ChatMessage () {
     var self = this;
 
@@ -383,95 +473,5 @@ angular.module('askMobile').service('FeedbackNegative', FeedbackNegative);
 
   WatsonConversation.$inject = ['$http', '$q'];
   angular.module('askMobile').service('WatsonConversation', WatsonConversation);
-
-}());
-
-(function () {
-
-  function autoFocus($timeout) {
-    return {
-      restrict: 'A',
-      scope: {
-        autoFocus: "="
-      },
-      link: function($scope, $element, attrs) {
-        $scope.$watch("autoFocus", function(currentValue, previousValue) {
-          if (currentValue) {
-            $timeout(function () {
-              $element[0].focus();
-            }, 0);
-          }
-        });
-
-        $element[0].focus();
-      }
-    };
-  }
-
-  autoFocus.$inject = ['$timeout'];
-  angular.module('askMobile').directive('autoFocus', autoFocus);
-
-}());
-
-(function() {
-
-  function chatMessage() {
-    return {
-        restrict: 'E',
-        transclude: true,
-
-        templateUrl: 'partials/chat_message.html',
-    };
-  }
-
-  chatMessage.$inject = [];
-  angular.module('askMobile').directive('chatMessage', chatMessage);
-
-})();
-
-(function() {
-    
-    function chatMessages() { 
-        return {
-            restrict: 'E',
-            transclude: true,
-            templateUrl: 'partials/chat_messages.html',
-        };
-    }
-
-    chatMessages.$inject = [];
-    angular.module('askMobile').directive('chatMessages', chatMessages);
-})();
-(function () {
-    
-    function inputBox() { 
-      return {
-        restrict: 'E',
-        transclude: true,
-        templateUrl: 'partials/input_box.html',
-      };
-    }
-    
-    inputBox.$inject = [];
-    angular.module('askMobile').directive('inputBox', inputBox);
-})();
-(function () {
-
-  function onEnter () {
-    return function (scope, element, attrs) {
-      element.bind("keydown keypress", function (event) {
-        if(event.which === 13) {
-            scope.$apply(function () {
-                // scope.$eval(attrs.onEnter);
-                scope[attrs.onEnter]();
-            });
-            event.preventDefault();
-        }
-      });
-    };
-  }
-
-  onEnter.$inject = [];
-  angular.module('askMobile').directive('onEnter', onEnter);
 
 }());
