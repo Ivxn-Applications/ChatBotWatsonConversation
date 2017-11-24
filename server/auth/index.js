@@ -21,8 +21,7 @@ module.exports = function (app, env, config) {
   };
 
   if (!env.isLocal) {
-
-    //sessionOptions.store = _setRedis(config.redis);
+    sessionOptions.store = _setRedis(config.redis);
   }
 
   app.use(session(sessionOptions));
