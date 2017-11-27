@@ -53,7 +53,7 @@ module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
     .then(function (result) {
       if(result['output'].nodes_visited[0]==="node_2_1491578229155")
         globalDate = new Date().toISOString();
-      isOnDataBase(cloudantConv,result,(flag) =>{
+      /*isOnDataBase(cloudantConv,result,(flag) =>{
         console.log("Date",globalDate);
         if(flag === true){
           retreiveDocCloudant(cloudantConv,result,(docAux)=>{
@@ -80,7 +80,7 @@ module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
            cloudantConv.insert(data);
          });
         }
-      });
+      });*/
       response = result;
       response.user={country:""};
       response.user.country = user.country;
