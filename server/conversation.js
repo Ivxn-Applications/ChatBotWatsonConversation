@@ -136,7 +136,14 @@ module.exports = function (app, appEnv, cloudant, conversation, cloudantConv) {
 
 };
 function isOnDataBase(cloudantConv,result, callback){
-  cloudantConv.find({selector:{conversation_date:globalDate}}, function(er, result) {
+  cloudantConv.find({
+    selector:{
+      "_id":{
+         "$gt":0
+      },
+      "conversation_date":globalDate
+  }
+}, function(er, result) {
       if (er) {
         throw er;
       }
