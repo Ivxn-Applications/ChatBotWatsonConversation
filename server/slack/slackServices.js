@@ -23,7 +23,7 @@ function initSlackService(callback){
 
 function sendingErrorMessage(issueMessage){
   slack.webhook({
-    username: "ask-mobile-"+process.env.SPACE,
+    username: "ask-mobile ("+process.env.SPACE+")",
     text: "Status: "+issueMessage
   }, function(err, response) {
     if (err)
