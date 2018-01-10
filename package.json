@@ -28,6 +28,7 @@
     "nodemon": "^1.11.0",
     "passport": "^0.3.2",
     "passport-idaas-openidconnect": "^2.0.1",
+    "slack-node": "^0.1.8",
     "socket.io": "^1.5.0",
     "vcap_services": "^0.2.0",
     "watson-developer-cloud": "^2.4.6"

@@ -50,6 +50,15 @@ require('./server/feedbackNegative')(app, cloudant);
 require('./server/info')(app, appEnv);
 require('./server/health')(app);
 require('./server/socket')(io);
+var monitoring = require("./server/monitoring/monitoringController.js");
+var slack = require("./server/slack/slackController.js");
+
+slack.initSlackService((status)=>{
+  console.log(status);
+  monitoring.initMonitoring((status)=>{
+    console.log(status);
+  })
+});
 
 http.listen(appEnv.port, function () {
   console.log('Mobile@IBM Chat Bot running: ' + appEnv.url);
